@@ -31,7 +31,8 @@ export class PostComponent implements OnInit {
 
   ngOnInit(): void {
     this.postService.getPosts().subscribe((postsFromApi) =>{
-      this.posts = postsFromApi;
+      let orderedPosts = postsFromApi.sort((a, b) => (a.code.toLowerCase() > b.code.toLowerCase()) ? 1 : -1);
+      this.posts = orderedPosts;
     })
   }
 
@@ -42,7 +43,7 @@ export class PostComponent implements OnInit {
     this.postData.code = this.postForm.value.code;
     this.postService.addPost(this.postData).subscribe(newPost => {
       this.posts.push(newPost);
-      this.posts.sort((a, b) => (a.town.toLowerCase() > b.town.toLowerCase()) ? 1 : -1);
+      this.posts.sort((a, b) => (a.code.toLowerCase() > b.code.toLowerCase()) ? 1 : -1);
       this.resetFormValues();
       this.onPostUpdated.emit("");
     });
@@ -71,7 +72,7 @@ export class PostComponent implements OnInit {
     this.postService.updatePost(this.postData).subscribe(updatedPost => {
       let index = this.posts.map(e => e.id).indexOf(updatedPost.id);
       this.posts[index] = updatedPost;
-      this.posts.sort((a, b) => (a.town.toLowerCase() > b.town.toLowerCase()) ? 1 : -1);
+      this.posts.sort((a, b) => (a.code.toLowerCase() > b.code.toLowerCase()) ? 1 : -1);
       this.resetFormValues();
       this.onPostUpdated.emit("");
     });
