@@ -1,0 +1,80 @@
+<div class="container">
+    
+    <div class="row form-group col-3">
+        <label>
+            filter by post office 
+        </label>
+        <select class="form-control" [(ngModel)]="postId2">
+            <option value="0" selected>all</option>
+            <option [selected]="postId2 == post.id" *ngFor="let post of posts" value="{{post.id}}">{{post.code}}</option>
+        </select>
+
+        <button class="mrg update2 btn-primary" (click)="filterTable(postId2)">filter</button>
+    </div>
+
+    <div class="row">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th scope="col">Weight</th>
+            <th scope="col">Phone</th>
+            <th scope="col">Info</th>
+            <th scope="col">Remove</th>
+            <th scope="col">Update</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let parcel of parcels">
+            <td>{{parcel.weight}}</td>
+            <td>{{parcel.phone}}</td>
+            <td>{{parcel.info}}</td>
+            <td><button class="delete btn-danger" (click)="deleteParcel(parcel.id)">remove</button></td>
+            <td><button class="update btn-primary" (click)="loadValuesToForm(parcel)">update</button></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <h4>add parcel</h4>
+    <div class="row">
+        <form [formGroup]="parcelForm" class="col-3">
+
+            <div class="form-group">
+                <label for="weight">
+                    weight 
+                </label>
+                <input id="weight" class="form-control" type="number" formControlName="weight" [(ngModel)]="weight">
+            </div>
+        
+            <div class="form-group">
+                <label for="phone">
+                    phone 
+                </label>
+                <input class="form-control" id="phone" type="text" formControlName="phone" [(ngModel)]="phone">
+            </div>
+    
+            <div class="form-group">
+                <label for="info">
+                    info 
+                </label>
+                <input class="form-control" id="info" type="text" formControlName="info" [(ngModel)]="info">
+            </div>
+            
+            <div class="form-group">
+                <label for="posts">
+                    posts
+                </label>
+                <select class="form-control" [(ngModel)]="postId" formControlName="postId">
+                    <option type="number" [selected]="postId == post.id" *ngFor="let post of postsWithCapacity" value="{{post.id}}">{{post.code}}</option>
+                </select>
+            </div>
+            
+            <div *ngIf="update; then thenBlock else elseBlock"></div>
+            <ng-template #thenBlock><button class="update2 btn-primary" (click)="updateParcel()">update</button></ng-template>
+            <ng-template #elseBlock><button class="button btn-primary" (click)="addParcel()">Add</button></ng-template>
+        </form>
+    </div>
+
+    <app-post (onPostUpdated) = "postUpdated($event)"></app-post>
+
+</div>

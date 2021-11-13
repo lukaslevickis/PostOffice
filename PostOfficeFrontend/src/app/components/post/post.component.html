@@ -1,0 +1,53 @@
+<div class="row">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+        <th scope="col">Town</th>
+        <th scope="col">Capacity</th>
+        <th scope="col">Code</th>
+        <th scope="col">Remove</th>
+            <th scope="col">Update</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let post of posts">
+        <td>{{post.town}}</td>
+        <td>{{post.capacity}}</td>
+        <td>{{post.code}}</td>
+        <td><button class="delete btn-danger" (click)="deletePost(post.id)">remove</button></td>
+        <td><button class="update btn-primary" (click)="loadValuesToForm(post)">update</button></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<h4>add post office</h4>
+<div class="row">
+    <form [formGroup]="postForm" class="col-3">
+
+        <div class="form-group">
+            <label for="town">
+                town 
+            </label>
+            <input class="form-control" id="town" type="text" formControlName="town" [(ngModel)]="town">
+        </div>
+      
+        <div class="form-group">
+            <label for="capacity">
+                capacity 
+            </label>
+            <input class="form-control" id="capacity" type="number" formControlName="capacity" [(ngModel)]="capacity">
+        </div>
+    
+        <div class="form-group">
+            <label for="code">
+                code 
+            </label>
+            <input class="form-control" id="code" type="text" formControlName="code" [(ngModel)]="code">
+        </div>
+        
+        <div *ngIf="update; then thenBlock else elseBlock"></div>
+        <ng-template #thenBlock><button class="update2 btn-primary" (click)="updatePost()">update</button></ng-template>
+        <ng-template #elseBlock><button class="button btn-primary" (click)="addPost()">Add</button></ng-template>
+    </form>
+</div>
